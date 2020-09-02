@@ -1,33 +1,35 @@
 <template>
   <v-container grid-list-md fill-height class="px-2">
     <v-layout justify-center align-center>
-      <v-flex xs12 sm8 md6 lg4>
-        <v-card elevation="20">
-          <v-card-title>
-            <h1>LOGIN</h1>
-          </v-card-title>
-          <v-text-field
-            v-model="username"
-            label="Username"
-            prepend-icon="person"
-          />
-          <v-text-field
-            v-model="password"
-            :append-icon="showpass ? 'visibility' : 'visibility_off'"
-            :type="showpass ? 'text' : 'password'"
-            name="input-10-1"
-            prepend-icon="lock"
-            label="Parola"
-            @click:append="showpass = !showpass"
-          ></v-text-field>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn color="primary" @click="login()">Login</v-btn>
-            <!-- <v-btn @click="doLoginOper()">Login Oper1</v-btn>
-            <v-btn @click="doLoginUser()">Login User1</v-btn>-->
-          </v-card-actions>
-        </v-card>
-      </v-flex>
+      <v-card elevation="20" min-width="400">
+        <v-card-title>
+          TrueView <v-divider vertical class="mx-2" /> Login
+        </v-card-title>
+        <v-card-text>
+          <v-form>
+            <v-text-field
+              v-model="username"
+              label="Username"
+              prepend-icon="person"
+            />
+            <v-text-field
+              v-model="password"
+              :append-icon="showpass ? 'visibility' : 'visibility_off'"
+              :type="showpass ? 'text' : 'password'"
+              name="input-10-1"
+              prepend-icon="lock"
+              label="Password"
+              @click:append="showpass = !showpass"
+            ></v-text-field>
+          </v-form>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn :loading="loading" color="primary" @click="login()"
+            >Login</v-btn
+          >
+        </v-card-actions>
+      </v-card>
     </v-layout>
   </v-container>
 </template>
@@ -40,17 +42,23 @@ export default {
     return {
       username: null,
       password: null,
-      showpass: false
+      showpass: false,
+      loading: null
     }
   },
   methods: {
     login() {
-      this.$auth.loginWith('local', {
-        data: {
-          username: this.username,
-          password: this.password
-        }
-      })
+      this.loading = true
+      this.$auth
+        .loginWith('local', {
+          data: {
+            username: this.username,
+            password: this.password
+          }
+        })
+        .finally(() => {
+          this.loading = false
+        })
     }
   }
 }
