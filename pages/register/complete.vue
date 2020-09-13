@@ -18,9 +18,9 @@
               :rules="[rules.password]"
               :type="showPass ? 'text' : 'password'"
               :append-icon="showPass ? 'visibility' : 'visibility_off'"
-              @click:append="showPass = !showPass"
               label="Password"
               prepend-icon="lock"
+              @click:append="showPass = !showPass"
             />
             <v-text-field
               v-model="passwordConfirmation"
@@ -46,9 +46,9 @@
         <v-card-actions>
           <v-spacer />
           <v-btn
-            @click="completeRegistration()"
             :loading="loading"
             color="primary"
+            @click="completeRegistration()"
             >Register</v-btn
           >
         </v-card-actions>
@@ -59,7 +59,7 @@
 
 <script>
 export default {
-  layout: 'login',
+  layout: 'auth',
   auth: 'guest',
   data() {
     return {

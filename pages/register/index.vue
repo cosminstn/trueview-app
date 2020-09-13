@@ -4,6 +4,9 @@
       <v-flex xs12 sm8 md6 lg4>
         <v-card elevation="20">
           <v-card-title>
+            <!-- <v-toolbar color="accent" dark flat>
+              <v-toolbar-title>Create a TrueView Account</v-toolbar-title>
+            </v-toolbar> -->
             Create a TrueView Account
           </v-card-title>
           <v-card-text>
@@ -16,7 +19,7 @@
           </v-card-text>
           <v-card-actions>
             <v-spacer />
-            <v-btn @click="register()" :loading="loading" color="primary"
+            <v-btn :loading="loading" color="primary" @click="register()"
               >Register</v-btn
             >
           </v-card-actions>
@@ -28,7 +31,7 @@
 
 <script>
 export default {
-  layout: 'login',
+  layout: 'auth',
   auth: 'guest',
   data() {
     return {

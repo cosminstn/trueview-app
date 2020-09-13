@@ -1,6 +1,6 @@
 <template>
-  <v-container grid-list-md fill-height class="px-2">
-    <v-layout justify-center align-center>
+  <v-row align="center" justify="center" class="ma-0">
+    <v-col cols="12" sm="8" md="6" lg="4">
       <v-card elevation="20" min-width="400">
         <v-card-title>
           TrueView <v-divider vertical class="mx-2" /> Login
@@ -30,13 +30,13 @@
           >
         </v-card-actions>
       </v-card>
-    </v-layout>
-  </v-container>
+    </v-col>
+  </v-row>
 </template>
 
 <script>
 export default {
-  layout: 'login',
+  layout: 'auth',
   auth: 'guest',
   data() {
     return {

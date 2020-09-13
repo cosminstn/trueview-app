@@ -16,7 +16,7 @@
       <v-row align="center">
         <v-rating
           readonly
-          :value="product.score || 4.7"
+          :value="productScore == null ? null : productScore.score"
           half-increments
           background-color="orange lighten-3"
           color="orange"
@@ -24,7 +24,10 @@
           dense
           class="px-2"
         ></v-rating>
-        <span class="px-2">{{ product.score || 4.5 }} ( 1344 reviews ) </span>
+        <span class="px-2"
+          >{{ productScore == null ? '' : productScore.score }} (
+          {{ productScore == null ? 0 : productScore.noReviews }} reviews )
+        </span>
       </v-row>
 
       <v-row>
@@ -76,7 +79,9 @@ export default {
     return {
       product: null,
       productPictures: [],
-      productReviews: []
+      productReviews: [],
+      productScore: null,
+      loadingScore: false
     }
   },
   computed: {
@@ -90,6 +95,7 @@ export default {
       .then((response) => {
         this.product = response.data
         this.getProductPictures()
+        this.getProductScore(this.product.universalProductCode)
         this.getProductReviews(this.product.universalProductCode)
       })
       .catch((ex) => {
@@ -116,7 +122,6 @@ export default {
      * @param {String} gtin - gtin = Global Trade Item Number
      */
     getProductReviews(gtin) {
-      this.loadingReviews = true
       this.$axios
         .get(`/review/gtin/${gtin}/search`)
         .then((response) => {
@@ -132,6 +137,21 @@ export default {
           )
         })
         .finally(() => (this.loadingReviews = false))
+    },
+    /**
+     * @param {String} gtin - gtin = Global Trade Item Number
+     */
+    getProductScore(gtin) {
+      this.loadingScore = true
+      this.$axios
+        .get(`/review/gtin/${gtin}/score`)
+        .then((response) => {
+          this.productScore = response.data
+        })
+        .catch((ex) => {
+          console.error('Could not fetch product score for: ' + this.gtin, ex)
+        })
+        .finally(() => (this.loadingScore = false))
     },
     toLocalDateTime(dateTime) {
       return DateTime.fromISO(dateTime).toFormat('dd-LL-yyyy HH:mm:ss')
