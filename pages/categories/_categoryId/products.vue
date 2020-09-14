@@ -22,7 +22,7 @@
           <v-row align="center">
             <v-rating
               readonly
-              :value="product.score || 4.7"
+              :value="product.score"
               half-increments
               background-color="orange lighten-3"
               color="orange"
@@ -30,9 +30,7 @@
               dense
               class="px-2"
             ></v-rating>
-            <span class="px-2"
-              >{{ product.score || 4.5 }} ( 1344 reviews )
-            </span>
+            <span class="px-2">{{ product.score }} ( 1344 reviews ) </span>
           </v-row>
         </v-card-text>
       </v-card>

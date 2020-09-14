@@ -32,6 +32,21 @@
 
       <v-row>
         <v-col>
+          <v-dialog
+            v-if="product != null"
+            v-model="placeReviewDialog"
+            max-width="500"
+            ><PlaceReview
+              :key="placeReviewUpdates"
+              :gtin="product.universalProductCode"
+              @success="
+                placeReviewDialog = false
+                getProductReviews(product.universalProductCode)
+                placeReviewUpdates
+              "
+          /></v-dialog>
+          <v-btn @click="placeReviewDialog = true">Place Review</v-btn>
+
           <v-card
             v-for="review in productReviews"
             :key="review.id"
@@ -75,13 +90,18 @@
 <script>
 const { DateTime } = require('luxon')
 export default {
+  components: {
+    PlaceReview: () => import('~/components/PlaceReview')
+  },
   data() {
     return {
       product: null,
       productPictures: [],
       productReviews: [],
       productScore: null,
-      loadingScore: false
+      loadingScore: false,
+      placeReviewDialog: false,
+      placeReviewUpdates: 0
     }
   },
   computed: {
